@@ -1,0 +1,30 @@
+Rc	!dd -if /dev/zero -of disk -bs 1024 -count 1024	
+mk  all
+slay 8.fscmd 8.fsfmt 8.9pix 9pix fcheck|rc ; broke|rc
+8.fsfmt   -vy >[2=1]
+cd /sys/src/cmd/creepy; 8.9pix -DZ9 disk  >[2=1]
+8.fscmd -cDKNMOZ  ldumpall  sync >[2=1]
+8.fscmd -cZ   ldump sync sync rcl sync  ldump>[2=1]
+tstack 9pix
+;; ;; ;; iprev=0; for(i in `{seq 10}){ echo $i... ; cp /bin/ls /n/9pix/active/ls^$i ; echo sync >/n/9pix/cons; rm -f /n/9pix/active/ls^$iprev ; iprev=$i ; echo check>/n/9pix/cons}
+fcheck w 30  put!/bin/echo!/active/ls2 sync >[2=1]
+cp disk1 disk
+echo halt >/n/9pix/cons
+creepy/9pix -Z /dev/sdC0/creepy
+mount -c /srv/9pix /n/9pix
+echo allow nemo >/n/9pix/cons
+dircp -v /n/nix /n/9pix/active
+
+This is after a copying /n/nix to the active tree.
+
+creepy> stats
+mblks:	194890 nblk 194895 nablk 194139 mused  751 mfree
+lists:	190929 clean 2574 dirty  632 refs 194135 total
+dblks:	 4806423 nblk 3975788 nfree (0 list + 3975788 rem)
+paths:	   6 alloc    3 free (  24 bytes)
+mfs:	57257 alloc    0 free (  68 bytes)
+fids:	   6 alloc    3 free (  96 bytes)
+rpcs:	   4 alloc    2 free (8804 bytes)
+clis:	   1 alloc    0 free (8284 bytes)
+srpcs:	   0 alloc    0 free ( 740 bytes)
+

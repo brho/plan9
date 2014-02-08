@@ -1,0 +1,28 @@
+#!/bin/rc
+# fault injection check
+if( ~ $#* 0 1 2){
+	echo usage: $0 'r|w' n cmd... >[1=2]
+	exit usage
+}
+
+fn testfault {
+	what=$1; shift
+	n=$1 ; shift
+	broke|rc
+	echo ; echo '**********' testing with $what^err '=' $n ':' $*
+	8.fsfmt -y && 8.fscmd dbg!WRD $what^err!$n  $*
+	if(ps|grep 8.fscmd>/dev/null)
+		tstack 8.fscmd
+	echo ; echo '**********' checking after $what^err '=' $n ':' $*
+	8.fscmd  check
+}
+what=w
+if( ~ $1 r)
+	what=r
+max=$2
+shift
+shift
+8.fsfmt && 8.fscmd dumpall
+for(n in `{seq $max}){
+	testfault $what $n $*
+}

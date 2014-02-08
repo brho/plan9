@@ -1,0 +1,51 @@
+</$objtype/mkfile
+
+
+TARG=\
+	archer\
+	fscmd\
+	fsfmt\
+	9pix\
+	rip\
+
+OFILES=\
+	dbg.$O\
+	mblk.$O\
+	dblk.$O\
+	fblk.$O\
+	attr.$O\
+	fsys.$O\
+	tools.$O\
+	check.$O\
+
+IXOFILES=\
+	ixcall.$O\
+	ix.$O\
+	9p.$O\
+	cfg.$O\
+	fid.$O\
+
+HFILES=\
+	dbg.h\
+	conf.h\
+	dk.h\
+	fns.h\
+	ix.h\
+	net.h\
+	all.h\
+
+BIN=/$objtype/bin/creepy
+
+default:V:all
+
+</sys/src/cmd/mkmany
+
+$O.9pix: 9pix.$O $OFILES $IXOFILES $LIB
+	$LD $LDFLAGS -o $target $prereq
+$O.rip: rip.$O $OFILES $IXOFILES $LIB
+	$LD $LDFLAGS -o $target $prereq
+$O.archer: archer.$O
+	$LD $LDFLAGS -o $target $prereq
+fns:V:
+	c/f2p *.c >fns.h
+
